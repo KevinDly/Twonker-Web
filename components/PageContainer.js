@@ -25,6 +25,10 @@ class PageContainer extends Component {
       this.setState({ texts: data });
     });
 
+    this.socket.on("newPost", (data) => {
+      this.setState({ texts: this.state.texts.concat([data.content]) });
+    });
+
     //TODO: Create new listener that listens for a single post rather than multiple.
   }
 
