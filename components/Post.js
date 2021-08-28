@@ -6,7 +6,7 @@ class Post extends React.Component {
     super(props);
   }
   render() {
-    return <body>{this.props.text}</body>;
+    return <div>{this.props.text}</div>;
   }
 }
 

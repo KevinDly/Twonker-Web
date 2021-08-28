@@ -11,7 +11,7 @@ class PostContainer extends React.Component {
     //props.texts
     var posts = new Array(this.props.texts.length);
     for (var i = 0; i < posts.length; i++) {
-      posts[i] = <Post text={props.texts[i]} />;
+      posts[i] = <Post text={props.texts[i].content}/>
     }
     return posts;
   }

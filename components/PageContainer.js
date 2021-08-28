@@ -22,17 +22,20 @@ class PageContainer extends Component {
     this.socket = io("ws://localhost:2999");
 
     this.socket.on("initData", (data) => {
-      var initialArray = [];
+      /*var initialArray = [];
       //console.log(data);
       data.forEach((doc) => {
         initialArray.push(doc.content);
-      });
+      });*/
       //console.log(initialArray);
-      this.setState({ texts: initialArray });
+      this.setState({ texts: data });
     });
 
+    //Update text posts with new post.
     this.socket.on("newPost", (data) => {
-      this.setState({ texts: this.state.texts.concat([data.content]) });
+      var newList = this.state.texts.slice();
+      newList.unshift(data);
+      this.setState({ texts: newList });
     });
 
     //TODO: Create new listener that listens for a single post rather than multiple.
@@ -57,7 +60,7 @@ class PageContainer extends Component {
 
   //TODO: pass in the time in miliseconds as a key.
   render() {
-    var textsReversed = this.state.texts.slice().reverse();
+    //var textsReversed = this.state.texts.slice().reverse();
     return (
       <div>
         <InputContainer
@@ -65,7 +68,7 @@ class PageContainer extends Component {
           onChange={this.handleInputChange}
           onClick={this.handleInputAreaClick}
         />
-        <PostContainer texts={textsReversed} />
+        <PostContainer texts={this.state.texts} />
       </div>
     );
   }
