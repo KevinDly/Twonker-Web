@@ -22,7 +22,13 @@ class PageContainer extends Component {
     this.socket = io("ws://localhost:2999");
 
     this.socket.on("initData", (data) => {
-      this.setState({ texts: data });
+      var initialArray = [];
+      //console.log(data);
+      data.forEach((doc) => {
+        initialArray.push(doc.content);
+      });
+      //console.log(initialArray);
+      this.setState({ texts: initialArray });
     });
 
     this.socket.on("newPost", (data) => {
@@ -49,6 +55,7 @@ class PageContainer extends Component {
     }
   }
 
+  //TODO: pass in the time in miliseconds as a key.
   render() {
     var textsReversed = this.state.texts.slice().reverse();
     return (
