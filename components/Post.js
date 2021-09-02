@@ -31,6 +31,7 @@ class Post extends React.Component {
       return <div>{this.props.text}</div>;*/
     if (this.props.load != false) {
       console.log("Loaded");
+      console.log("Time: " + this.props.time);
       return (
         <InView
           as="div"

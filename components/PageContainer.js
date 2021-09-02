@@ -23,6 +23,7 @@ class PageContainer extends Component {
 
     //Create a new list of data from database.
     this.socket.on("initData", (data) => {
+      console.log("init data: " + data);
       this.setState({ texts: data });
     });
 
