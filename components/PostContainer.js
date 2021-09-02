@@ -9,9 +9,24 @@ class PostContainer extends React.Component {
 
   createTable(props) {
     //props.texts
-    var posts = new Array(this.props.texts.length);
+    var posts = new Array(props.texts.length);
     for (var i = 0; i < posts.length; i++) {
-      posts[i] = <Post text={props.texts[i].content}/>
+      if (i != posts.length - 1)
+        posts[i] = (
+          <Post
+            text={props.texts[i].content}
+            load={false}
+            time={props.texts[i].time}
+          />
+        );
+      else
+        posts[i] = (
+          <Post
+            text={props.texts[i].content}
+            load={true}
+            time={props.texts[i].time}
+          />
+        );
     }
     return posts;
   }

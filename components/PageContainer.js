@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PostContainer from "./PostContainer";
 import InputContainer from "./InputContainer";
-import io from "socket.io-client";
+import socket from "./socket";
 
 //Component that connects all top level components together.
 const defaultText = "";
@@ -11,7 +11,7 @@ class PageContainer extends Component {
     this.state = { inputText: defaultText, texts: ["Hello", "Let's go"] };
     this.handleInputAreaClick = this.handleInputAreaClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.socket = undefined;
+    this.socket = socket;
   }
 
   handleInputChange(input) {
@@ -19,15 +19,10 @@ class PageContainer extends Component {
   }
 
   componentDidMount() {
-    this.socket = io("ws://localhost:2999");
+    //this.socket = io("ws://localhost:2999");
 
+    //Create a new list of data from database.
     this.socket.on("initData", (data) => {
-      /*var initialArray = [];
-      //console.log(data);
-      data.forEach((doc) => {
-        initialArray.push(doc.content);
-      });*/
-      //console.log(initialArray);
       this.setState({ texts: data });
     });
 
@@ -38,7 +33,12 @@ class PageContainer extends Component {
       this.setState({ texts: newList });
     });
 
-    //TODO: Create new listener that listens for a single post rather than multiple.
+    //Append additional posts onto our current postlist.
+    this.socket.on("updateData", (data) => {
+      var newList = this.state.texts.slice();
+      newList = newList.concat(data);
+      this.setState({ texts: newList });
+    });
   }
 
   handleInputAreaClick() {
